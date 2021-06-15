@@ -10,16 +10,16 @@ Change to the project source directory
 
 and invoke with arguments for an application token or without arguments for a credentials token
 
-    dotnet run <clientId> <clientSecret> [<scope>]
+    dotnet run <clientId> <clientSecret>
     dotnet run
 
 ### Application token
 
 To get an application token, use your Nexar application client ID and secret
 
-    dotnet run <clientId> <clientSecret> [<scope>]
+    dotnet run <clientId> <clientSecret>
 
-The scope argument is optional, e.g. "supply.domain".
+Note that this token is only suitable for accessing Supply (Octopart) data.
 
 ### Credentials token
 

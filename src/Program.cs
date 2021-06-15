@@ -1,5 +1,5 @@
-﻿using IdentityModel.Client;
-using Nexar.Client.Login;
+﻿using Nexar.Client.Login;
+using Nexar.Client.Token;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ Usage:
     nexar-token
         - get credentials token
 
-    nexar-token <clientId> <clientSecret> [<scope>]
+    nexar-token <clientId> <clientSecret>
         - get application token
 ";
 
@@ -27,18 +27,17 @@ Usage:
             {
                 // Credentials token, using interactive browser login.
                 // Call the client login helper to start the browser.
-                var result = await LoginHelper.LoginAsync(Config.Authority);
+                var result = await LoginHelper.LoginAsync(authority);
                 token = result.AccessToken;
             }
-            else if (args.Length == 2 || args.Length == 3)
+            else if (args.Length == 2)
             {
                 // Application token, using client ID, secret, scope.
                 // Call the identity server with these credentials.
                 var clientId = args[0];
                 var clientSecret = args[1];
-                var scope = args.Length > 2 ? args[2] : null;
-                var result = await LoginWithClientCredentialsAsync(authority, clientId, clientSecret, scope);
-                token = result.AccessToken;
+                using var client = new HttpClient();
+                token = await client.GetNexarTokenAsync(clientId, clientSecret, authority);
             }
             else
             {
@@ -48,7 +47,7 @@ Usage:
 
             if (token == null)
             {
-                Console.Error.WriteLine("Cannot get token.");
+                Console.Error.WriteLine("Cannot get Nexar token.");
                 return 1;
             }
             else
@@ -56,28 +55,6 @@ Usage:
                 Console.Write(token);
                 return 0;
             }
-        }
-
-        /// <summary>
-        /// Gets the token responce using client ID, secret, scope.
-        /// </summary>
-        /// <param name="authority">The identity server endpoint, usually https://identity.nexar.com/ </param>
-        /// <param name="clientId">The client ID.</param>
-        /// <param name="clientSecret">The client secret.</param>
-        /// <param name="scope">The application scope.</param>
-        /// <returns>The token response with <see cref="TokenResponse.AccessToken"/>.</returns>
-        static async Task<TokenResponse> LoginWithClientCredentialsAsync(string authority, string clientId, string clientSecret, string scope)
-        {
-            var client = new HttpClient();
-            var disco = await client.GetDiscoveryDocumentAsync(authority);
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Scope = scope
-            });
-            return tokenResponse;
         }
     }
 }
