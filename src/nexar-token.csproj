@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nexar.Client.Login" Version="0.1.2" />
+    <PackageReference Include="Nexar.Client.Login" Version="0.2.0" />
     <PackageReference Include="Nexar.Client.Token" Version="0.1.0" />
   </ItemGroup>
 

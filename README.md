@@ -8,39 +8,33 @@ Change to the project source directory
 
     cd src
 
-and invoke with arguments for an application token or without arguments for a credentials token
+and invoke as
+
+    dotnet run <clientId> <clientSecret> [<domain>]
+
+### Supply token
+
+To get a supply token, invoke
+
+    dotnet run <clientId> <clientSecret> supply
+
+This token does not require signing with Altium Live credentials.
+It is suitable for the Supply operations, i.e. queries with the prefix `sup`.
+
+### Design token
+
+To get a design token, invoke
 
     dotnet run <clientId> <clientSecret>
-    dotnet run
-
-### Application token
-
-To get an application token, use your Nexar application client ID and secret
-
-    dotnet run <clientId> <clientSecret>
-
-Note that this token is only suitable for accessing Supply (Octopart) data.
-
-### Credentials token
-
-To get your credentials token, invoke
-
-    dotnet run
 
 On the first run it starts the browser with the Nexar identity login page:
 
 ![](images/login.png)
 
 Enter your credentials and click `Sing In`.
+The Nexar token is printed to the console.
 
-The browser redirects to the page with this message:
-
-> You can now return to the application.
-
-and the Nexar token is printed to the console.
-
-On next runs you may be redirected to this page right away.
-
+On next runs your browser may remember credentials and skip the login page.
 You may clean the cookies in order to ensure the login page. E.g. in Chrome,
 click the `(i)` icon in the address bar, then `Cookies` and remove cookies:
 
