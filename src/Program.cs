@@ -1,6 +1,7 @@
 ﻿using Nexar.Client.Login;
 using Nexar.Client.Token;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Nexar.Token
     {
         const string Usage = @"
 Usage:
-    nexar-token <clientId> <clientSecret> [<domain>]
+    nexar-token <clientId> <clientSecret> [<scope1> ...]
 ";
 
         public static async Task<int> Main(string[] args)
@@ -18,7 +19,7 @@ Usage:
             // The identity server endpoint, usually https://identity.nexar.com/
             var authority = Config.Authority;
 
-            if (args.Length < 2 || args.Length > 3)
+            if (args.Length < 2)
             {
                 Console.Error.WriteLine(Usage);
                 return 1;
@@ -26,21 +27,21 @@ Usage:
 
             var clientId = args[0];
             var clientSecret = args[1];
+            var scopes = args.Skip(2).ToArray();
 
             string token;
-            if (args.Length == 2)
+            if (scopes.Length == 1 && scopes[0] == "supply.domain")
             {
-                // Credentials token, using interactive browser login.
-                // Call the client login helper to start the browser.
-                var result = await LoginHelper.LoginAsync(clientId, clientSecret, authority);
-                token = result.AccessToken;
+                // Supply token without credentials.
+                using var client = new HttpClient();
+                token = await client.GetNexarTokenAsync(clientId, clientSecret, authority);
             }
             else
             {
-                // Application token, using client ID, secret, scope.
-                // Call the identity server with these credentials.
-                using var client = new HttpClient();
-                token = await client.GetNexarTokenAsync(clientId, clientSecret, authority);
+                // Credentials token, using interactive browser login.
+                // Call the client login helper to start the browser.
+                var result = await LoginHelper.LoginAsync(clientId, clientSecret, scopes, authority);
+                token = result.AccessToken;
             }
 
             if (token == null)
