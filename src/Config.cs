@@ -13,8 +13,8 @@ namespace Nexar.Token
 
         static Config()
         {
-            var mode = Environment.GetEnvironmentVariable("NEXAR_MODE");
-            NexarMode = mode == null ? Mode.Dev : (Mode)Enum.Parse(typeof(Mode), mode, true);
+            var mode = Environment.GetEnvironmentVariable("NEXAR_MODE") ?? "Prod";
+            NexarMode = (Mode)Enum.Parse(typeof(Mode), mode, true);
 
             switch (NexarMode)
             {
@@ -22,6 +22,12 @@ namespace Nexar.Token
                     Authority = "https://identity.nexar.com/";
                     break;
                 case Mode.Dev:
+                    Authority = "https://identity.nexar.com/";
+                    break;
+                case Mode.Uat:
+                    Authority = "https://identity.nexar.com/";
+                    break;
+                case Mode.Local:
                     Authority = "https://identity.nexar.com/";
                     break;
                 default:
@@ -33,6 +39,8 @@ namespace Nexar.Token
         {
             Prod,
             Dev,
+            Uat,
+            Local
         }
     }
 }
