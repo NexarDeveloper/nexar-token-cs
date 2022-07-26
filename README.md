@@ -2,6 +2,8 @@
 
 Getting Nexar tokens, the tool and sample.
 
+[UPDATE] Please note for those users who want to get going with the supply API, we recommend following the examples [here](https://github.com/NexarDeveloper/nexar-first-supply-query) which support multiple languages and include token caching.
+
 ## Usage
 
 Change to the project source directory
