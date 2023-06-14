@@ -37,18 +37,14 @@ To get a design token, invoke, for example
 
 > Note that exact scopes depend on your Nexar application.
 
-On the first run it starts the browser with the Nexar identity login page:
+## Login / Logout
 
-![](images/login.png)
+The default system browser opens the Nexar identity login page.
+To login, enter your credentials and click `Sign In`.
 
-Enter your credentials and click `Sign In`.
-The Nexar token is printed to the console.
-
-On next runs your browser may remember credentials and skip the login page.
-You may clean the cookies in order to ensure the login page. E.g. in Chrome,
-click the `(i)` icon in the address bar, then `Cookies` and remove cookies:
-
-![](images/cookies.png)
+The browser does not necessarily asks your credentials each time, it may remember and use your last login.
+If this is not desired, open <https://identity.nexar.com> and either logout or clean the site cookies.
+Then login again.
 
 ## Notes
 
