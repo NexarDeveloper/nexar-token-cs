@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <AssemblyName>nexar-token</AssemblyName>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Nexar.Client.Login" Version="0.3.1" />
-    <PackageReference Include="Nexar.Client.Token" Version="0.1.1" />
+    <PackageReference Include="Nexar.Client.Login" Version="0.4.0" />
+    <PackageReference Include="Nexar.Client.Token" Version="0.2.0" />
   </ItemGroup>
-
 </Project>

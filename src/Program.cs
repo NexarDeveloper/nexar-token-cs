@@ -16,14 +16,13 @@ Usage:
 
         public static async Task<int> Main(string[] args)
         {
-            // The identity server endpoint, usually https://identity.nexar.com/
-            var authority = Config.Authority;
-
             if (args.Length < 2)
             {
                 Console.Error.WriteLine(Usage);
                 return 1;
             }
+
+            var authority = Environment.GetEnvironmentVariable("NEXAR_AUTHORITY_URL") ?? "https://identity.nexar.com";
 
             var clientId = args[0];
             var clientSecret = args[1];
